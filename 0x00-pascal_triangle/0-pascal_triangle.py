@@ -1,12 +1,14 @@
 #!/usr/bin/python3
-'''Pascal's Triangle'''
+'''Module to return pascal triangle'''
 
 
 def pascal_triangle(n):
     '''
-    returns a list of lists of integers representing the Pascal’s triangle
-    arguments
-             n: number of pascal triangle a user wants
+    Pascal's triangle
+    Args:
+      n (int): The number of rows of the triangle
+    Returns:
+      List of lists of integers representing the Pascal’s triangle
     '''
     lists = []
     if n == 0:
