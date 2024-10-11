@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""Determines if all boxes can be unlocked using keys found in other boxes via DFS. 
-Returns True if all can be opened, otherwise False"""
+"""Determines if all boxes can be unlocked using keys found in other boxes via DFS."""
 
 
 def canUnlockAll(boxes):
