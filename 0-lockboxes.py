@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Determines if all boxes can be unlocked using keys found in other boxes via DFS."""
+"""Script will unlock list of lists"""
 
 
 def canUnlockAll(boxes):
