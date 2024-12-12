@@ -43,4 +43,6 @@ def sieve_of_eratosthenes(max_n):
             for j in range(i * i, max_n + 1, i):
                 primes[j] = False
     return primes
+if __name__ == "__main__":
+    print("Winner:", isWinner(5, [2, 5, 1, 4, 3]))
 
