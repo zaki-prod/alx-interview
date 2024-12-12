@@ -1,66 +1,42 @@
 #!/usr/bin/python3
-'''Prime Game'''
 
+def sieve_of_eratosthenes(max_n):
+    """Generate a list of primes up to max_n using the Sieve of Eratosthenes."""
+    primes = [True] * (max_n + 1)
+    primes[0] = primes[1] = False  # 0 and 1 are not primes
+    for i in range(2, int(max_n**0.5) + 1):
+        if primes[i]:
+            for j in range(i * i, max_n + 1, i):
+                primes[j] = False
+    return primes
 
 def isWinner(x, nums):
-    '''finds the winner'''
-    winnerCounter = {'Maria': 0, 'Ben': 0}
-
-    for i in range(x):
-        roundWinner = isRoundWinner(nums[i], x)
-        if roundWinner is not None:
-            winnerCounter[roundWinner] += 1
-
-    if winnerCounter['Maria'] > winnerCounter['Ben']:
-        return 'Maria'
-    elif winnerCounter['Ben'] > winnerCounter['Maria']:
-        return 'Ben'
-    else:
+    """Determine the winner of the prime game."""
+    if not nums or x < 1:
         return None
 
+    # Find the maximum number in nums to precompute primes
+    max_n = max(nums)
+    primes = sieve_of_eratosthenes(max_n)
 
-def isRoundWinner(n, x):
-    '''find round winner'''
-    list = [i for i in range(1, n + 1)]
-    players = ['Maria', 'Ben']
+    # Precompute the number of primes up to each number
+    prime_counts = [0] * (max_n + 1)
+    for i in range(1, max_n + 1):
+        prime_counts[i] = prime_counts[i - 1] + (1 if primes[i] else 0)
 
-    for i in range(n):
-        # get current player
-        currentPlayer = players[i % 2]
-        selectedIdxs = []
-        prime = -1
-        for idx, num in enumerate(list):
-            # if already picked prime num then
-            # find if num is multipl of the prime num
-            if prime != -1:
-                if num % prime == 0:
-                    selectedIdxs.append(idx)
-            # else check is num is prime then pick it
-            else:
-                if isPrime(num):
-                    selectedIdxs.append(idx)
-                    prime = num
-        # if failed to pick then current player lost
-        if prime == -1:
-            if currentPlayer == players[0]:
-                return players[1]
-            else:
-                return players[0]
+    maria_wins = 0
+    ben_wins = 0
+
+    for n in nums:
+        # If the number of primes up to n is odd, Maria wins; otherwise, Ben wins
+        if prime_counts[n] % 2 == 1:
+            maria_wins += 1
         else:
-            for idx, val in enumerate(selectedIdxs):
-                del list[val - idx]
+            ben_wins += 1
+
+    if maria_wins > ben_wins:
+        return "Maria"
+    elif ben_wins > maria_wins:
+        return "Ben"
     return None
 
-
-def isPrime(n):
-    # 0, 1, even numbers greater than 2 are NOT PRIME
-    if n == 1 or n == 0 or (n % 2 == 0 and n > 2):
-        return False
-    else:
-        # Not prime if divisable by another number less
-        # or equal to the square root of itself.
-        # n**(1/2) returns square root of n
-        for i in range(3, int(n**(1/2))+1, 2):
-            if n % i == 0:
-                return "Not prime"
-        return True
